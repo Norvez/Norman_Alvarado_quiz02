@@ -1,34 +1,33 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import Monitor from './components/Monitor'
-import Mouse from './components/Mouse'
-import Total from './components/Total'
-import MyContext from './context/MyContext'
-import Stepper from './quiz02/Stepper'
-import Content from './quiz02/Content'
+import React, { useState } from 'react';
+import './App.css';
+import Stepper from './quiz02/Stepper';
+import Content from './quiz02/Content';
+import MyProvider from './context/MyContextProvider'; // Use the correct import path
 
 function App() {
+  const [step, setStep] = useState(1);
 
-  const [products] = [
-    { id:1, step:1, name: 'Mouse', price: 60 },
-    { id:2, step:1, name: 'Monitor', price: 70 },
-    { id:4, step:2, name: 'Keyboard', price: 80 },
-    { id:5, step:2, name: 'Headset', price: 90 },
-    { id:6, step:3, name: 'Tablet', price: 100 },
-    { id:7, step:3, name: 'Hub', price: 110 }
-  ];
-  
+  const handleNext = () => {
+    setStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
+  };
+
+  const handlePrev = () => {
+    setStep(prevStep => (prevStep > 1 ? prevStep - 1 : prevStep));
+  };
+
   return (
-    <>
+    <div>
       <h1>Quiz 02</h1>
-       <Stepper/>
-       <Content/>
-      <div className='flex'>
-        <button type="button">Prev</button>
-        <button type="button">Next</button>
-      </div>
-    </>
-  )
+      <MyProvider> {/* Remove value prop */}
+        <Stepper step={step} handlePrev={handlePrev} handleNext={handleNext} />
+        <Content step={step} />
+        <div className='flex'>
+          <button type="button" onClick={handlePrev}>Prev</button>
+          <button type="button" onClick={handleNext}>Next</button>
+        </div>
+      </MyProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;

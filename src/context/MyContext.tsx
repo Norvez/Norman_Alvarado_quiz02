@@ -8,11 +8,12 @@ type Product = {
 }
 
 type MyContextData = {
-    
+  products: Product[];
+
 }
 
 const MyContext = React.createContext<MyContextData>({
-
+ products: [],
 });
 
 export default MyContext;
